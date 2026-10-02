@@ -1,17 +1,17 @@
+import collections
 class Solution:
     def productExceptSelf(self, nums: list[int]) -> list[int]:
         n = len(nums)
         res = [1] * n
         
-        def helper(index: int, left_prod: int) -> int:
-            if index == n:
-                return 1
+        left_prod = 1
+        for i in range(n):
+            res[i] = left_prod
+            left_prod *= nums[i]
             
-            res[index] = left_prod
-            right_prod = helper(index + 1, left_prod * nums[index])
+        right_prod = 1
+        for i in range(n - 1, -1, -1):
+            res[i] *= right_prod
+            right_prod *= nums[i]
             
-            res[index] *= right_prod
-            return right_prod * nums[index]
-
-        helper(0, 1)
         return res
